@@ -1,3 +1,6 @@
+import 'package:echo_note/listscreen.dart';
+import 'package:echo_note/taskscreen.dart';
+import 'package:echo_note/textscreen.dart';
 import 'package:flutter/material.dart';
 
 class Firstpage extends StatefulWidget {
@@ -6,7 +9,14 @@ class Firstpage extends StatefulWidget {
 }
 
 class _FirstpageState extends State<Firstpage> {
-  
+  bool _showicon = false;
+  bool _showfab = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,6 +33,13 @@ class _FirstpageState extends State<Firstpage> {
             Text("Task"),
           ]),
           backgroundColor: Colors.green,
+        ),
+        body: Center(
+          child: TabBarView(children: [
+            Textscreen(),
+            Listscreen(),
+            Taskscreen(),
+          ]),
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: () {},
