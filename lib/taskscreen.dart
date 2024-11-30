@@ -48,6 +48,8 @@ class _TaskscreenState extends State<Taskscreen> {
                   "Description",
                   style: TextStyle(color: Colors.green),
                 ),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.green)),
               ),
             ),
           ),
