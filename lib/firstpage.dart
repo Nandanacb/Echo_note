@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:echo_note/listscreen.dart';
 import 'package:echo_note/taskscreen.dart';
 import 'package:echo_note/textscreen.dart';
@@ -9,12 +11,62 @@ class Firstpage extends StatefulWidget {
 }
 
 class _FirstpageState extends State<Firstpage> {
-  bool _showicon = false;
+  bool _showicons = false;
   bool _showfab = true;
 
-  @override
-  void initState() {
-    super.initState();
+  Widget showIcons() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(height: 50),
+        Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.green),
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Taskscreen()));
+            },
+            icon: Icon(Icons.add_task),
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.green),
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Listscreen()));
+            },
+            icon: Icon(Icons.check_box_rounded),
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.green),
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Textscreen()));
+            },
+            icon: Icon(Icons.menu),
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
@@ -39,14 +91,23 @@ class _FirstpageState extends State<Firstpage> {
             Textscreen(),
             Listscreen(),
             Taskscreen(),
+            if (_showicons)
+              Positioned(bottom: 80, right: 15, child: showIcons())
           ]),
         ),
-        floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: Text(
-              "+",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )),
+        floatingActionButton: _showfab
+            ? FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    _showicons = true;
+                    _showfab = false;
+                  });
+                },
+                child: Text(
+                  "+",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ))
+            : null,
       ),
     );
   }
