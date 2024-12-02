@@ -45,73 +45,79 @@ class _FirstpageState extends State<Firstpage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ))
                 : null,
-            body: Stack(children: <Widget>[
-              if (_showicons)
-                Positioned(
-                  bottom: 80, // Adjust position above FAB
-                  right: 15,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(height: 50),
-                      Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Taskscreen()));
-                          },
-                          icon: Icon(Icons.add_task),
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Listscreen()));
-                          },
-                          icon: Icon(Icons.check_box_rounded),
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        height: 45,
-                        width: 45,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Textscreen()));
-                          },
-                          icon: Icon(Icons.menu),
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+            body: TabBarView(children: [
+              
+              Expanded(
+                child: Stack(children: <Widget>[
+                  if (_showicons)
+                    Positioned(
+                        bottom: 80, // Adjust position above FAB
+                        right: 15,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(height: 50),
+                              Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Taskscreen()));
+                                  },
+                                  icon: Icon(Icons.add_task),
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Listscreen()));
+                                  },
+                                  icon: Icon(Icons.check_box_rounded),
+                                  color: Colors.black,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Container(
+                                height: 45,
+                                width: 45,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green),
+                                child: IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Textscreen()));
+                                  },
+                                  icon: Icon(Icons.menu),
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ])),
+                ]),
+              ),
             ])));
   }
 }
