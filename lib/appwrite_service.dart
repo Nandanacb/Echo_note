@@ -28,7 +28,7 @@ class AppwriteService {
     }
   }
 
-  Future<Document> addTask(String title, String description) async {
+  Future<Document> addTask(String title, String description,String Date,String Time) async {
     try {
       final documentId = ID.unique();
 
@@ -38,6 +38,8 @@ class AppwriteService {
         data: {
           'title': title,
           'description': description,
+          'Date':Date,
+          'Time':Time,
         },
         documentId: documentId,
       );

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-class Listscreen extends StatefulWidget {
+class TextExample extends StatefulWidget {
   @override
-  State<Listscreen> createState() => _ListscreenState();
+  State<TextExample> createState() => _TextExampleState();
 }
 
-class _ListscreenState extends State<Listscreen> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController addtolistContoller = TextEditingController();
-
+class _TextExampleState extends State<TextExample> {
+  
+  TextEditingController titleController=TextEditingController();
+  TextEditingController contentController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: Text(
-            "Add New List",
+            "Add New Note",
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -40,19 +40,16 @@ class _ListscreenState extends State<Listscreen> {
                     borderSide: BorderSide(color: Colors.green))),
           ),
           SizedBox(height: 10),
-          SizedBox(
-            height: 100,
-            child: TextField(
-              decoration: InputDecoration(
-                suffixIcon: IconButton(onPressed: () {}, icon: Icon(Icons.add)),
-                border: OutlineInputBorder(),
-                label: Text(
-                  "Add to list",
-                  style: TextStyle(color: Colors.green),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green)),
+          TextField(
+            maxLines: 22,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text(
+                "Content",
+                style: TextStyle(color: Colors.green),
               ),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.green)),
             ),
           ),
         ]));
