@@ -3,14 +3,14 @@ import 'package:echo_note/edittask.dart';
 import 'package:echo_note/note.dart';
 import 'package:flutter/material.dart';
 
-class TaskScreen extends StatefulWidget {
-  const TaskScreen({super.key});
+class Listscreen extends StatefulWidget {
+  const Listscreen({super.key});
 
   @override
-  State<TaskScreen> createState() => _TaskScreenState();
+  State< Listscreen> createState() => _ListscreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen> {
+class _ListscreenState extends State<Listscreen> {
   TextEditingController titlecontroller = TextEditingController();
   TextEditingController descriptioncontroller = TextEditingController();
   late AppwriteService _appwriteService;

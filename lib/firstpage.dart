@@ -1,4 +1,3 @@
-
 import 'package:echo_note/lists.dart';
 import 'package:echo_note/tasks.dart';
 import 'package:echo_note/taskscreen.dart';
@@ -12,12 +11,10 @@ class Firstpage extends StatefulWidget {
 }
 
 class _FirstpageState extends State<Firstpage> {
-  
-
   bool _showicons = false;
   bool _showfab = true;
 
-  Widget showIcons(){
+  Widget showIcons() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -78,7 +75,6 @@ class _FirstpageState extends State<Firstpage> {
     );
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -106,21 +102,18 @@ class _FirstpageState extends State<Firstpage> {
                     },
                     child: Icon(Icons.add))
                 : null,
-
-                
-            body:
-                  Stack(children: <Widget>[
-                    TabBarView(children: [
-                      Center(child: Text("Text Screen")),
-                      Center(child: Text("List Screen")),
-                      TaskScreen(),
-                    ]),
-                    if (_showicons)
-                      Positioned(
-                          bottom: 80, // Adjust position above FAB
-                          right: 15,
-                          child: showIcons(),
-                      ),
-                  ])));
+            body: Stack(children: <Widget>[
+              TabBarView(children: [
+                Center(child: Text("Text Screen")),
+                Center(child: Text("List Screen")),
+                TaskScreen(),
+              ]),
+              if (_showicons)
+                Positioned(
+                  bottom: 80, // Adjust position above FAB
+                  right: 15,
+                  child: showIcons(),
+                ),
+            ])));
   }
 }

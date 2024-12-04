@@ -5,12 +5,12 @@ import 'package:echo_note/taskscreen.dart';
 
 import 'package:flutter/material.dart';
 
-class TaskExample extends StatefulWidget {
+class Edittask extends StatefulWidget {
   @override
-  State<TaskExample> createState() => _TaskExampleState();
+  State<Edittask> createState() => _EdittaskState();
 }
 
-class _TaskExampleState extends State<TaskExample> {
+class _EdittaskState extends State<Edittask> {
   late AppwriteService _appwriteService;
   late List<Task> _tasks;
 
@@ -60,7 +60,7 @@ class _TaskExampleState extends State<TaskExample> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(
-          "Add New Task",
+          "Edit Task",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
