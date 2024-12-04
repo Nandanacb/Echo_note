@@ -1,0 +1,95 @@
+import 'package:echo_note/appwrite_service.dart';
+import 'package:echo_note/class_text.dart';
+
+import 'package:echo_note/edittext.dart';
+
+import 'package:flutter/material.dart';
+
+class TextScreen extends StatefulWidget {
+  const TextScreen({super.key});
+
+  @override
+  State<TextScreen> createState() => _TextScreenState();
+}
+
+class _TextScreenState extends State<TextScreen> {
+  TextEditingController titlecontroller = TextEditingController();
+  TextEditingController contentcontroller = TextEditingController();
+  late AppwriteService _appwriteService;
+  late List<Textt> _textt;
+
+  @override
+  void initState() {
+    super.initState();
+    _appwriteService = AppwriteService();
+    _textt = [];
+    _loadtextt();
+  }
+
+  Future<void> _loadtextt() async {
+    try {
+      final textts = await _appwriteService.getTextts();
+      setState(() {
+        _textt = textts.map((e) => Textt.fromDocument(e)).toList();
+      });
+    } catch (e) {
+      print("Title is empty");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          children: [
+            Expanded(
+              child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 7,
+                      mainAxisSpacing: 7),
+                  itemCount: _textt.length,
+                  itemBuilder: (context, index) {
+                    final textts = _textt[index];
+                    return Container(
+                      height: 30,
+                      width: 70,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: const Color.fromARGB(255, 87, 115, 240)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(textts.title),
+                                Spacer(),
+                                GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Edittext()));
+                                    },
+                                    child: Icon(Icons.menu_outlined))
+                              ],
+                            ),
+                            Text(textts.content),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

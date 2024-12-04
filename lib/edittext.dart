@@ -1,54 +1,55 @@
 import 'package:echo_note/appwrite_service.dart';
+import 'package:echo_note/class_text.dart';
 
 import 'package:echo_note/note.dart';
-
+import 'package:echo_note/taskscreen.dart';
 import 'package:echo_note/textscreen.dart';
 
 import 'package:flutter/material.dart';
 
-class TaskExample extends StatefulWidget {
+class Edittext extends StatefulWidget {
   @override
-  State<TaskExample> createState() => _TaskExampleState();
+  State<Edittext> createState() => _EdittextState();
 }
 
-class _TaskExampleState extends State<TaskExample> {
+class _EdittextState extends State<Edittext> {
   late AppwriteService _appwriteService;
-  late List<Task> _tasks;
+  late List<Textt> _textt;
 
   TextEditingController titleController = TextEditingController();
-  TextEditingController descriptionController = TextEditingController();
-
-  final DateTime datetime = DateTime.now();
+  TextEditingController contentController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _appwriteService = AppwriteService();
-    _tasks = [];
+    _textt = [];
   }
 
-  Future<void> _loadTasks() async {
+  Future<void> _loadtextt() async {
     try {
-      final tasks = await _appwriteService.getTasks();
+      final textts = await _appwriteService.getTextts();
       setState(() {
-        _tasks = tasks.map((e) => Task.fromDocument(e)).toList();
+        _textt = textts.map((e) => Textt.fromDocument(e)).toList();
       });
     } catch (e) {
       print('Title is empty');
     }
   }
 
-  Future<void> _addTask() async {
+  Future<void> _addTextt() async {
     final title = titleController.text;
-    final description = descriptionController.text;
-    String date = "${datetime.day}/${datetime.month}/${datetime.year}";
-    String time = "${datetime.hour}/${datetime.minute}";
+    final description = contentController.text;
+
     if (title.isNotEmpty && description.isNotEmpty) {
       try {
-        await _appwriteService.addTask(title, description, date, time);
+        await _appwriteService.addTextt(
+          title,
+          description,
+        );
         titleController.clear();
-        descriptionController.clear();
-        _loadTasks();
+        contentController.clear();
+        _loadtextt();
       } catch (e) {
         print('Error adding task:$e');
       }
@@ -61,7 +62,7 @@ class _TaskExampleState extends State<TaskExample> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(
-          "Add New Task",
+          "Edit Text",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -71,7 +72,7 @@ class _TaskExampleState extends State<TaskExample> {
                   MaterialPageRoute(builder: (context) => TextScreen()));
             },
             child: IconButton(
-                onPressed: _addTask,
+                onPressed: _addTextt,
                 icon: Icon(
                   Icons.check,
                   color: Colors.white,
@@ -98,7 +99,7 @@ class _TaskExampleState extends State<TaskExample> {
             SizedBox(height: 10),
             TextField(
               maxLines: 20,
-              controller: descriptionController,
+              controller: contentController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 label: Text(
@@ -109,22 +110,6 @@ class _TaskExampleState extends State<TaskExample> {
                 focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.green)),
               ),
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            Row(
-              children: [
-                Text(
-                  "${datetime.day.toString()}/${datetime.month.toString()}/${datetime.year.toString()}",
-                  style: TextStyle(color: Colors.green),
-                ),
-                Spacer(),
-                Text(
-                  "${datetime.hour.toString()}/${datetime.minute.toString()}",
-                  style: TextStyle(color: Colors.green),
-                ),
-              ],
             ),
           ],
         ),

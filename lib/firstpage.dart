@@ -2,6 +2,7 @@ import 'package:echo_note/lists.dart';
 import 'package:echo_note/tasks.dart';
 import 'package:echo_note/taskscreen.dart';
 import 'package:echo_note/text.dart';
+import 'package:echo_note/textscreen.dart';
 import 'package:flutter/material.dart';
 
 class Firstpage extends StatefulWidget {
@@ -105,7 +106,7 @@ class _FirstpageState extends State<Firstpage> {
             body: Stack(children: <Widget>[
               TabBarView(children: [
                 Center(child: Text("Text Screen")),
-                Center(child: Text("List Screen")),
+                TextScreen(),
                 TaskScreen(),
               ]),
               if (_showicons)

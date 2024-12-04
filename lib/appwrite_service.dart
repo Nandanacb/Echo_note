@@ -9,7 +9,7 @@ class AppwriteService {
   static const projectId = "674d5517000114a2fc41";
   static const databaseId = "674d55750023577ccc13";
   static const taskcollectionId = "674d5596002c7f25de81";
-  static const textcollectionId = "674d557f001b48c8915b";
+  static const textscollectionId = "6750010100365fe9b5ad";
 
   AppwriteService() {
     client = Client();
@@ -64,49 +64,50 @@ class AppwriteService {
       rethrow;
     }
   }
-}
+
 //text screen
 
-Future<List<Document>> getTexts() async {
-  try {
-    final result = await databases.listDocuments(
-        databaseId: databaseId, collectionId: textcollectionId);
-    return result.documents;
-  } catch (e) {
-    print('Error loading notes:$e');
-    rethrow;
+  Future<List<Document>> getTextts() async {
+    try {
+      final result = await databases.listDocuments(
+          databaseId: databaseId, collectionId: textscollectionId);
+      return result.documents;
+    } catch (e) {
+      print('Error loading notes:$e');
+      rethrow;
+    }
   }
-}
 
-Future<Document> addText(String title, String content) async {
-  try {
-    final documentId = ID.unique();
+  Future<Document> addTextt(String title, String content) async {
+    try {
+      final documentId = ID.unique();
 
-    final result = await databases.createDocument(
-      databaseId: databaseId,
-      collectionId: textcollectionId,
-      data: {
-        'title': title,
-        'description': content,
-      },
-      documentId: documentId,
-    );
-    return result;
-  } catch (e) {
-    print('Error creating note:$e');
-    rethrow;
+      final result = await databases.createDocument(
+        databaseId: databaseId,
+        collectionId: textscollectionId,
+        data: {
+          'title': title,
+          'content': content,
+        },
+        documentId: documentId,
+      );
+      return result;
+    } catch (e) {
+      print('Error creating note:$e');
+      rethrow;
+    }
   }
-}
 
-Future<void> deleteTask(String documentId) async {
-  try {
-    await databases.deleteDocument(
-      databaseId: databaseId,
-      collectionId: textcollectionId,
-      documentId: documentId,
-    );
-  } catch (e) {
-    print('Error deleting note:$e');
-    rethrow;
+  Future<void> deleteTextt(String documentId) async {
+    try {
+      await databases.deleteDocument(
+        databaseId: databaseId,
+        collectionId: textscollectionId,
+        documentId: documentId,
+      );
+    } catch (e) {
+      print('Error deleting note:$e');
+      rethrow;
+    }
   }
 }
