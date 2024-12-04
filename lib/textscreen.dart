@@ -54,13 +54,13 @@ class _TextScreenState extends State<TextScreen> {
                   itemBuilder: (context, index) {
                     final textts = _textt[index];
                     return Container(
-                      height: 30,
-                      width: 70,
+                      height: 50,
+                      width: 50,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: const Color.fromARGB(255, 87, 115, 240)),
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(15),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,

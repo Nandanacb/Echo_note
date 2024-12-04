@@ -1,4 +1,5 @@
 import 'package:echo_note/lists.dart';
+import 'package:echo_note/listscreen.dart';
 import 'package:echo_note/tasks.dart';
 import 'package:echo_note/taskscreen.dart';
 import 'package:echo_note/text.dart';
@@ -105,8 +106,8 @@ class _FirstpageState extends State<Firstpage> {
                 : null,
             body: Stack(children: <Widget>[
               TabBarView(children: [
-                Center(child: Text("Text Screen")),
                 TextScreen(),
+                Listscreen(),
                 TaskScreen(),
               ]),
               if (_showicons)

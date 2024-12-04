@@ -58,7 +58,7 @@ class _TaskScreenState extends State<TaskScreen> {
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.red),
                       child: Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(15),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
