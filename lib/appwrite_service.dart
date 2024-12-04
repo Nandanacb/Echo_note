@@ -10,6 +10,7 @@ class AppwriteService {
   static const databaseId = "674d55750023577ccc13";
   static const taskcollectionId = "674d5596002c7f25de81";
   static const textscollectionId = "6750010100365fe9b5ad";
+  static const listcollectionId="674d558d000bd8dc4222";
 
   AppwriteService() {
     client = Client();
@@ -64,6 +65,54 @@ class AppwriteService {
       rethrow;
     }
   }
+//list screen
+
+ Future<List<Document>> getLissts() async {
+    try {
+      final result = await databases.listDocuments(
+          databaseId: databaseId, collectionId: listcollectionId);
+      return result.documents;
+    } catch (e) {
+      print('Error loading notes:$e');
+      rethrow;
+    }
+  }
+
+  Future<Document> addLisst(
+      String title, String addlist) async {
+    try {
+      final documentId = ID.unique();
+
+      final result = await databases.createDocument(
+        databaseId: databaseId,
+        collectionId: listcollectionId,
+        data: {
+          'title': title,
+          'description': addlist,
+          
+        },
+        documentId: documentId,
+      );
+      return result;
+    } catch (e) {
+      print('Error creating note:$e');
+      rethrow;
+    }
+  }
+
+  Future<void> deleteLisst(String documentId) async {
+    try {
+      await databases.deleteDocument(
+        databaseId: databaseId,
+        collectionId: listcollectionId,
+        documentId: documentId,
+      );
+    } catch (e) {
+      print('Error deleting note:$e');
+      rethrow;
+    }
+  }
+
 
 //text screen
 
@@ -110,4 +159,12 @@ class AppwriteService {
       rethrow;
     }
   }
+
+
+
+
+
+
+
+
 }

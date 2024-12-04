@@ -1,6 +1,7 @@
 import 'package:echo_note/appwrite_service.dart';
+import 'package:echo_note/classlist.dart';
 import 'package:echo_note/edittask.dart';
-import 'package:echo_note/note.dart';
+
 import 'package:flutter/material.dart';
 
 class Listscreen extends StatefulWidget {
@@ -12,23 +13,23 @@ class Listscreen extends StatefulWidget {
 
 class _ListscreenState extends State<Listscreen> {
   TextEditingController titlecontroller = TextEditingController();
-  TextEditingController descriptioncontroller = TextEditingController();
+  TextEditingController addlistcontroller = TextEditingController();
   late AppwriteService _appwriteService;
-  late List<Task> _task;
-  final DateTime dateTime = DateTime.now();
+  late List<Lisst> _lissts;
+  
   @override
   void initState() {
     super.initState();
     _appwriteService = AppwriteService();
-    _task = [];
-    _loadtask();
+    _lissts = [];
+    _loadLissts();
   }
 
-  Future<void> _loadtask() async {
+  Future<void> _loadLissts() async {
     try {
-      final tasks = await _appwriteService.getTasks();
+      final lissts = await _appwriteService.getTasks();
       setState(() {
-        _task = tasks.map((e) => Task.fromDocument(e)).toList();
+        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
       });
     } catch (e) {
       print("Title is empty");
@@ -48,9 +49,9 @@ class _ListscreenState extends State<Listscreen> {
                       crossAxisCount: 2,
                       crossAxisSpacing: 7,
                       mainAxisSpacing: 7),
-                  itemCount: _task.length,
+                  itemCount: _lissts.length,
                   itemBuilder: (context, index) {
-                    final tasks = _task[index];
+                    final lissts = _lissts[index];
                     return Container(
                       height: 30,
                       width: 70,
@@ -65,23 +66,17 @@ class _ListscreenState extends State<Listscreen> {
                           children: [
                             Row(
                               children: [
-                                Text(tasks.title),
+                                Text(lissts.title),
                                 Spacer(),
                                 GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Edittask()));
+                                      
                                     },
                                     child: Icon(Icons.menu_outlined))
                               ],
                             ),
-                            Text(tasks.description),
-                            Row(
-                              children: [Text(tasks.Date), Text(tasks.Time)],
-                            ),
+                            Text(lissts.addlist),
+                            
                           ],
                         ),
                       ),
