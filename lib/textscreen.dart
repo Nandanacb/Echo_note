@@ -69,15 +69,23 @@ class _TextScreenState extends State<TextScreen> {
                               children: [
                                 Text(textts.title),
                                 Spacer(),
-                                GestureDetector(
-                                    onTap: () {
+                                PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    if (value == 'Edit') {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   Edittext()));
-                                    },
-                                    child: Icon(Icons.menu_outlined))
+                                    } else if (value == 'Delete') {}
+                                  },
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: "Edit", child: Text("Edit")),
+                                    PopupMenuItem(
+                                        value: 'Delete', child: Text('delete')),
+                                  ],
+                                )
                               ],
                             ),
                             Text(textts.content),

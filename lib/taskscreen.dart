@@ -1,6 +1,6 @@
 import 'package:echo_note/appwrite_service.dart';
 import 'package:echo_note/edittask.dart';
-import 'package:echo_note/note.dart';
+import 'package:echo_note/class_task.dart';
 import 'package:flutter/material.dart';
 
 class TaskScreen extends StatefulWidget {
@@ -35,6 +35,15 @@ class _TaskScreenState extends State<TaskScreen> {
     }
   }
 
+/* Future<void> _deleteTask(String taskId) async {
+    try {
+      await _appwriteService.deleteTask(taskId);
+      _loadtask();
+    } catch (e) {
+      print('Error deleting task:$e');
+    }
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +61,13 @@ class _TaskScreenState extends State<TaskScreen> {
                   itemBuilder: (context, index) {
                     final tasks = _task[index];
                     return Container(
-                      height: 30,
-                      width: 70,
+                      height: 100,
+                      width: 150,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.red),
                       child: Padding(
-                        padding: const EdgeInsets.all(15),
+                        padding: const EdgeInsets.all(8),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -67,21 +76,28 @@ class _TaskScreenState extends State<TaskScreen> {
                               children: [
                                 Text(tasks.title),
                                 Spacer(),
-                                GestureDetector(
-                                    onTap: () {
+                                PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    if (value == 'Edit') {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   Edittask()));
-                                    },
-                                    child: Icon(Icons.menu_outlined))
+                                    } else if (value == 'Delete') {}
+                                  },
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: "Edit", child: Text("Edit")),
+                                    PopupMenuItem(
+                                        value: 'Delete', child: Text('delete')),
+                                  ],
+                                ),
                               ],
                             ),
                             Text(tasks.description),
-                            Row(
-                              children: [Text(tasks.Date), Text(tasks.Time)],
-                            ),
+                            Text(tasks.Date),
+                            Text(tasks.Time),
                           ],
                         ),
                       ),

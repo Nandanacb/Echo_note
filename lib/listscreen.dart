@@ -1,5 +1,5 @@
 import 'package:echo_note/appwrite_service.dart';
-import 'package:echo_note/classlist.dart';
+import 'package:echo_note/class_list.dart';
 import 'package:echo_note/edittask.dart';
 
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class _ListscreenState extends State<Listscreen> {
   TextEditingController addlistcontroller = TextEditingController();
   late AppwriteService _appwriteService;
   late List<Lisst> _lissts;
-  
+
   @override
   void initState() {
     super.initState();
@@ -69,14 +69,11 @@ class _ListscreenState extends State<Listscreen> {
                                 Text(lissts.title),
                                 Spacer(),
                                 GestureDetector(
-                                    onTap: () {
-                                      
-                                    },
+                                    onTap: () {},
                                     child: Icon(Icons.menu_outlined))
                               ],
                             ),
                             Text(lissts.addlist),
-                            
                           ],
                         ),
                       ),

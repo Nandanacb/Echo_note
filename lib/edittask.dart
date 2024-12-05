@@ -1,6 +1,6 @@
 import 'package:echo_note/appwrite_service.dart';
 
-import 'package:echo_note/note.dart';
+import 'package:echo_note/class_task.dart';
 import 'package:echo_note/taskscreen.dart';
 
 import 'package:flutter/material.dart';

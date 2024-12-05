@@ -1,6 +1,6 @@
 import 'package:echo_note/appwrite_service.dart';
 
-import 'package:echo_note/note.dart';
+import 'package:echo_note/class_task.dart';
 
 import 'package:echo_note/textscreen.dart';
 
@@ -54,6 +54,15 @@ class _TaskExampleState extends State<TaskExample> {
       }
     }
   }
+
+  /*Future<void> _deleteTask(String taskId) async {
+    try {
+      await _appwriteService.deleteTask(taskId);
+      _loadTasks();
+    } catch (e) {
+      print('Error deleting task:$e');
+    }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +125,7 @@ class _TaskExampleState extends State<TaskExample> {
             Row(
               children: [
                 Text(
-                  "${datetime.day.toString()}/${datetime.month.toString()}/${datetime.year.toString()}",
+                  "${datetime.day.toString()}/${datetime.month.toString()}/{$datetime.year.toString()}",
                   style: TextStyle(color: Colors.green),
                 ),
                 Spacer(),

@@ -1,7 +1,7 @@
 import 'package:echo_note/appwrite_service.dart';
 import 'package:echo_note/class_text.dart';
 
-import 'package:echo_note/note.dart';
+import 'package:echo_note/class_task.dart';
 import 'package:echo_note/taskscreen.dart';
 import 'package:echo_note/textscreen.dart';
 
@@ -62,7 +62,7 @@ class _EdittextState extends State<Edittext> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(
-          "Edit Text",
+          "Edit Note",
           style: TextStyle(color: Colors.white),
         ),
         actions: [

@@ -10,7 +10,7 @@ class AppwriteService {
   static const databaseId = "674d55750023577ccc13";
   static const taskcollectionId = "674d5596002c7f25de81";
   static const textscollectionId = "6750010100365fe9b5ad";
-  static const listcollectionId="674d558d000bd8dc4222";
+  static const listcollectionId = "674d558d000bd8dc4222";
 
   AppwriteService() {
     client = Client();
@@ -67,7 +67,7 @@ class AppwriteService {
   }
 //list screen
 
- Future<List<Document>> getLissts() async {
+  Future<List<Document>> getLissts() async {
     try {
       final result = await databases.listDocuments(
           databaseId: databaseId, collectionId: listcollectionId);
@@ -78,8 +78,7 @@ class AppwriteService {
     }
   }
 
-  Future<Document> addLisst(
-      String title, String addlist) async {
+  Future<Document> addLisst(String title, String addlist) async {
     try {
       final documentId = ID.unique();
 
@@ -88,8 +87,7 @@ class AppwriteService {
         collectionId: listcollectionId,
         data: {
           'title': title,
-          'description': addlist,
-          
+          'addlist': addlist,
         },
         documentId: documentId,
       );
@@ -112,7 +110,6 @@ class AppwriteService {
       rethrow;
     }
   }
-
 
 //text screen
 
@@ -159,12 +156,4 @@ class AppwriteService {
       rethrow;
     }
   }
-
-
-
-
-
-
-
-
 }
