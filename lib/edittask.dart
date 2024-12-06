@@ -6,6 +6,13 @@ import 'package:echo_note/taskscreen.dart';
 import 'package:flutter/material.dart';
 
 class Edittask extends StatefulWidget {
+  final String id;
+  final String title;
+  final String description;
+
+  const Edittask(
+      {required this.id, required this.title, required this.description});
+
   @override
   State<Edittask> createState() => _EdittaskState();
 }

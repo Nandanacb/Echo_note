@@ -21,10 +21,10 @@ class _TaskScreenState extends State<TaskScreen> {
     super.initState();
     _appwriteService = AppwriteService();
     _task = [];
-    _loadtask();
+    _loadtasks();
   }
 
-  Future<void> _loadtask() async {
+  Future<void> _loadtasks() async {
     try {
       final tasks = await _appwriteService.getTasks();
       setState(() {
@@ -35,15 +35,15 @@ class _TaskScreenState extends State<TaskScreen> {
     }
   }
 
-/* Future<void> _deleteTask(String taskId) async {
+  Future<void> _deleteTask(String taskId) async {
     try {
       await _appwriteService.deleteTask(taskId);
-      _loadtask();
+      _loadtasks();
     } catch (e) {
       print('Error deleting task:$e');
     }
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,22 +82,32 @@ class _TaskScreenState extends State<TaskScreen> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Edittask()));
+                                              builder: (context) => Edittask(
+                                                    id: 'id',
+                                                    title: 'title',
+                                                    description: 'description',
+                                                  )));
                                     } else if (value == 'Delete') {}
                                   },
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                         value: "Edit", child: Text("Edit")),
                                     PopupMenuItem(
-                                        value: 'Delete', child: Text('delete')),
+                                        value: 'Delete',
+                                        child: GestureDetector(
+                                            onTap: () => _deleteTask(tasks.id),
+                                            child: Text('delete'))),
                                   ],
                                 ),
                               ],
                             ),
                             Text(tasks.description),
-                            Text(tasks.Date),
-                            Text(tasks.Time),
+                            Row(
+                              children: [
+                                Text(tasks.Date),
+                                Text(tasks.Time),
+                              ],
+                            ),
                           ],
                         ),
                       ),

@@ -41,8 +41,8 @@ class _TaskExampleState extends State<TaskExample> {
   Future<void> _addTask() async {
     final title = titleController.text;
     final description = descriptionController.text;
-    String date = "${datetime.day}/${datetime.month}/${datetime.year}";
-    String time = "${datetime.hour}/${datetime.minute}";
+    String date = "${datetime.day}:${datetime.month}:${datetime.year}";
+    String time = "${datetime.hour}:${datetime.minute}";
     if (title.isNotEmpty && description.isNotEmpty) {
       try {
         await _appwriteService.addTask(title, description, date, time);
@@ -55,14 +55,14 @@ class _TaskExampleState extends State<TaskExample> {
     }
   }
 
-  /*Future<void> _deleteTask(String taskId) async {
+  Future<void> _deleteTask(String taskId) async {
     try {
       await _appwriteService.deleteTask(taskId);
       _loadTasks();
     } catch (e) {
       print('Error deleting task:$e');
     }
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,12 +125,12 @@ class _TaskExampleState extends State<TaskExample> {
             Row(
               children: [
                 Text(
-                  "${datetime.day.toString()}/${datetime.month.toString()}/{$datetime.year.toString()}",
+                  "${datetime.day.toString()}:${datetime.month.toString()}:{$datetime.year.toString()}",
                   style: TextStyle(color: Colors.green),
                 ),
                 Spacer(),
                 Text(
-                  "${datetime.hour.toString()}/${datetime.minute.toString()}",
+                  "${datetime.hour.toString()}:${datetime.minute.toString()}",
                   style: TextStyle(color: Colors.green),
                 ),
               ],
