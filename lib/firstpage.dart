@@ -107,7 +107,7 @@ class _FirstpageState extends State<Firstpage> {
             body: Stack(children: <Widget>[
               TabBarView(children: [
                 TextScreen(),
-                Listscreen(),
+                Listscreen(lissts: []),
                 TaskScreen(),
               ]),
               if (_showicons)

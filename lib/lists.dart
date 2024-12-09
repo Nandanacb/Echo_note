@@ -14,6 +14,7 @@ class _ListExampleState extends State<ListExample> {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController addlistContoller = TextEditingController();
+  
   late List<String> add = [];
 
   void newList() {
@@ -25,55 +26,69 @@ class _ListExampleState extends State<ListExample> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _appwriteService = AppwriteService();
-    _lissts = [];
-  }
 
-  Future<void> _loadLissts() async {
-    try {
-      final lissts = await _appwriteService.getTasks();
-      setState(() {
-        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
-      });
-    } catch (e) {
-      print('Title is empty');
-    }
+ List<Lisst>convertAddToLisst(){
+  List<Lisst> newLisstItems=[];
+  for(var item in add){
+    newLisstItems.add(Lisst(title: item, id: 'id', addlist: 'addlist'));
   }
+  return newLisstItems;
+ }
 
-  Future<void> _addLisst() async {
+  
+
+
+Future<void> _addLisst() async {
     final title = titleController.text;
-    final addlist = addlistContoller.text;
-
+    final addlist=add;
+    
     if (title.isNotEmpty && addlist.isNotEmpty) {
       try {
+
+        List<Lisst> newLisstItems=convertAddToLisst();
+        
+        for(var lisstItem in newLisstItems){
         await _appwriteService.addLisst(title, addlist);
+        }
         titleController.clear();
         addlistContoller.clear();
+        setState(() {
+          add.clear();
+        });
         _loadLissts();
       } catch (e) {
         print('Error adding task:$e');
       }
     }
   }
-
-  /*Future<void> _deletelisst(String lisstId) async {
-    try {
-      await _appwriteService.deleteLisst(lisstId);
-      _loadLissts();
-    } catch (e) {
-      print('Error deleting task:$e');
-    }
-  }*/
-
+  
   void _removeAdd(int index) {
     setState(() {
       add.removeAt(index);
     });
   }
+ 
 
+  @override
+  void initState() {
+    super.initState();
+    _appwriteService = AppwriteService();
+    _lissts = [];
+    _addLisst();
+  }
+
+  Future<void> _loadLissts() async {
+    try {
+      final lissts = await _appwriteService.getLissts();
+      setState(() {
+        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
+      });
+    } catch (e) {
+      print('Error loading tasks: $e');
+    }
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,10 +102,11 @@ class _ListExampleState extends State<ListExample> {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Listscreen()));
+                    MaterialPageRoute(builder: (context) => Listscreen(lissts: _lissts,)));
               },
               icon: IconButton(
                 onPressed: _addLisst,
+                
                 icon: Icon(
                   Icons.check,
                   color: Colors.white,

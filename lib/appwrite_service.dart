@@ -78,11 +78,11 @@ class AppwriteService {
     }
   }
 
-  Future<Document> addLisst(String title, String addlist) async {
+  Future<void> addLisst(String title, List<String> addlist) async {
     try {
       final documentId = ID.unique();
 
-      final result = await databases.createDocument(
+      final response = await databases.createDocument(
         databaseId: databaseId,
         collectionId: listcollectionId,
         data: {
@@ -91,7 +91,7 @@ class AppwriteService {
         },
         documentId: documentId,
       );
-      return result;
+      print('Document created:$response');
     } catch (e) {
       print('Error creating note:$e');
       rethrow;

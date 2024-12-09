@@ -1,41 +1,21 @@
-import 'package:echo_note/appwrite_service.dart';
+
 import 'package:echo_note/class_list.dart';
-import 'package:echo_note/edittask.dart';
+
 
 import 'package:flutter/material.dart';
 
 class Listscreen extends StatefulWidget {
-  const Listscreen({super.key});
+  final List<Lisst> lissts;
+  
+  Listscreen({required this.lissts});
 
   @override
   State<Listscreen> createState() => _ListscreenState();
 }
 
 class _ListscreenState extends State<Listscreen> {
-  TextEditingController titlecontroller = TextEditingController();
-  TextEditingController addlistcontroller = TextEditingController();
-  late AppwriteService _appwriteService;
-  late List<Lisst> _lissts;
-
-  @override
-  void initState() {
-    super.initState();
-    _appwriteService = AppwriteService();
-    _lissts = [];
-    _loadLissts();
-  }
-
-  Future<void> _loadLissts() async {
-    try {
-      final lissts = await _appwriteService.getTasks();
-      setState(() {
-        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
-      });
-    } catch (e) {
-      print("Title is empty");
-    }
-  }
-
+  
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,33 +27,44 @@ class _ListscreenState extends State<Listscreen> {
               child: GridView.builder(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 7,
-                      mainAxisSpacing: 7),
-                  itemCount: _lissts.length,
+                      mainAxisSpacing: 7,
+                      crossAxisSpacing: 7
+                      ),
+                  itemCount: widget.lissts.length,
                   itemBuilder: (context, index) {
-                    final lissts = _lissts[index];
-                    return Container(
-                      height: 30,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.red),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
+                    final lisst = widget.lissts[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        height: 30,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: const Color.fromARGB(255, 69, 48, 183)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [
-                                Text(lissts.title),
+                                Text(lisst.title),
                                 Spacer(),
-                                GestureDetector(
-                                    onTap: () {},
-                                    child: Icon(Icons.menu_outlined))
-                              ],
-                            ),
-                            Text(lissts.addlist),
+                                PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    if (value == 'Edit') {
+                                      
+                                    } else if (value == 'Delete') {}
+                                  },
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: "Edit", child: Text("Edit")),
+                                    PopupMenuItem(
+                                        value: 'Delete',
+                                        child: Text('delete')),
+                                  ])
+                                  ],
+                                ),
+                                
                           ],
                         ),
                       ),
