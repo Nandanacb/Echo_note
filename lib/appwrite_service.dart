@@ -79,24 +79,25 @@ class AppwriteService {
   }
 
   Future<void> addLisst(String title, List<String> addlist) async {
-    try {
-      final documentId = ID.unique();
-
-      final response = await databases.createDocument(
-        databaseId: databaseId,
-        collectionId: listcollectionId,
-        data: {
-          'title': title,
-          'addlist': addlist,
-        },
-        documentId: documentId,
-      );
-      print('Document created:$response');
-    } catch (e) {
-      print('Error creating note:$e');
-      rethrow;
-    }
+  try {
+    final documentId = ID.unique();
+    final response = await databases.createDocument(
+      databaseId: databaseId,
+      collectionId: listcollectionId,
+      data: {
+        'title': title,
+        'addlist': addlist,  // Pass the entire list of strings
+      },
+      documentId: documentId,
+    );
+    print('Document created with title: ${response.data['title']}');
+    print('List data:${response.data['addlist']}');
+  } catch (e) {
+    print('Error creating list: $e');
+    rethrow;
   }
+}
+
 
   Future<void> deleteLisst(String documentId) async {
     try {

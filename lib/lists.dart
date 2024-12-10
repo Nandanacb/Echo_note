@@ -30,15 +30,42 @@ class _ListExampleState extends State<ListExample> {
  List<Lisst>convertAddToLisst(){
   List<Lisst> newLisstItems=[];
   for(var item in add){
-    newLisstItems.add(Lisst(title: item, id: 'id', addlist: 'addlist'));
+    newLisstItems.add(Lisst(title: item, id: 'id', addlist: [item]));
   }
   return newLisstItems;
  }
 
-  
 
+  void _removeAdd(int index) {
+    setState(() {
+      add.removeAt(index);
+    });
+  }
+ 
 
-Future<void> _addLisst() async {
+ @override
+  void initState() {
+    super.initState();
+    _appwriteService = AppwriteService();
+    _lissts = [];
+    _loadLissts();  
+    // Ensure this is called to load the data when the screen initializes
+  }
+
+  Future<void> _loadLissts() async {
+    try {
+      final lissts = await _appwriteService.getLissts();
+      setState(() {
+        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
+      });
+    } catch (e) {
+      print('Error loading lists: $e');
+    }
+  }
+
+  // Other methods...
+
+  Future<void> _addLisst() async {
     final title = titleController.text;
     final addlist=add;
     
@@ -55,36 +82,10 @@ Future<void> _addLisst() async {
         setState(() {
           add.clear();
         });
-        _loadLissts();
+       await  _loadLissts();
       } catch (e) {
         print('Error adding task:$e');
       }
-    }
-  }
-  
-  void _removeAdd(int index) {
-    setState(() {
-      add.removeAt(index);
-    });
-  }
- 
-
-  @override
-  void initState() {
-    super.initState();
-    _appwriteService = AppwriteService();
-    _lissts = [];
-    _addLisst();
-  }
-
-  Future<void> _loadLissts() async {
-    try {
-      final lissts = await _appwriteService.getLissts();
-      setState(() {
-        _lissts = lissts.map((e) => Lisst.fromDocument(e)).toList();
-      });
-    } catch (e) {
-      print('Error loading tasks: $e');
     }
   }
 
@@ -102,7 +103,7 @@ Future<void> _addLisst() async {
           IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Listscreen(lissts: _lissts,)));
+                    MaterialPageRoute(builder: (context) => Listscreen()));
               },
               icon: IconButton(
                 onPressed: _addLisst,
