@@ -31,9 +31,27 @@ class _TaskScreenState extends State<TaskScreen> {
         _task = tasks.map((e) => Task.fromDocument(e)).toList();
       });
     } catch (e) {
-      print("Title is empty");
+      print("Error loading tasks:$e");
     }
   }
+ 
+ void _navigateToEditTask(BuildContext context,Task task) async{
+  final updatedTask= await Navigator.push(context, MaterialPageRoute(builder: (context)=>Edittask(
+    id: task.id, title: task.title, description: task.description)));
+
+    if(updatedTask !=null){
+      setState(() {
+        final index=_task.indexWhere((t)=>t.id==updatedTask.id);
+        if(index != -1){
+          _task[index]=updatedTask;
+        }
+      });
+    }
+ }
+
+
+
+
 
   Future<void> _deleteTask(String taskId) async {
     try {
@@ -60,55 +78,62 @@ class _TaskScreenState extends State<TaskScreen> {
                   itemCount: _task.length,
                   itemBuilder: (context, index) {
                     final tasks = _task[index];
-                    return Container(
-                      height: 100,
-                      width: 150,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.red),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(tasks.title),
-                                Spacer(),
-                                PopupMenuButton<String>(
-                                  onSelected: (value) {
-                                    if (value == 'Edit') {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Edittask(
-                                                    id: 'id',
-                                                    title: 'title',
-                                                    description: 'description',
-                                                  )));
-                                    } else if (value == 'Delete') {}
-                                  },
-                                  itemBuilder: (context) => [
-                                    PopupMenuItem(
-                                        value: "Edit", child: Text("Edit")),
-                                    PopupMenuItem(
-                                        value: 'Delete',
-                                        child: GestureDetector(
-                                            onTap: () => _deleteTask(tasks.id),
-                                            child: Text('delete'))),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Text(tasks.description),
-                            Row(
-                              children: [
-                                Text(tasks.Date),
-                                Text(tasks.Time),
-                              ],
-                            ),
-                          ],
+                    return GestureDetector(
+                      onTap: (){
+                        _navigateToEditTask(context, tasks);
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 150,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.red),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(tasks.title),
+                                  Spacer(),
+                                  PopupMenuButton<String>(
+                                    onSelected: (value) {
+                                      if (value == 'Edit') {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => Edittask(
+                                                      id: tasks.id,
+                                                      title: tasks.title,
+                                                      description: tasks.description,
+                                                    )));
+                                                    
+                                      } else if (value == 'Delete') {
+                      
+                                        _deleteTask(tasks.id);
+                                      }
+                                    },
+                                    itemBuilder: (context) => [
+                                      PopupMenuItem(
+                                          value: "Edit", child: Text("Edit")),
+                                      PopupMenuItem(
+                                          value: 'Delete',
+                                          child: Text('delete')),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Text(tasks.description),
+                              Row(
+                                children: [
+                                  Text(tasks.Date),
+                                  Text(tasks.Time),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );

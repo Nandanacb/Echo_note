@@ -52,6 +52,26 @@ class AppwriteService {
       rethrow;
     }
   }
+  Future<Document> updateTask(String taskId,String title,String description) async{
+    try{
+      
+      final result = await databases.updateDocument(
+        databaseId: databaseId,
+         collectionId: taskcollectionId,
+         documentId: taskId,
+         data: 
+         {
+          'title':title,
+          'description':description,
+         },
+         
+      );
+      return result;
+    }catch(e){
+      print('Error updating task :$e');
+      rethrow;
+    }
+  }
 
   Future<void> deleteTask(String documentId) async {
     try {
@@ -98,6 +118,26 @@ class AppwriteService {
   }
 }
 
+Future<Document> updateLisst(String lisstId,String title,String addLisst) async{
+    try{
+      
+      final result = await databases.updateDocument(
+        databaseId: databaseId,
+         collectionId: taskcollectionId,
+         documentId: lisstId,
+         data: 
+         {
+          'title':title,
+          'addList':addLisst,
+         },
+         
+      );
+      return result;
+    }catch(e){
+      print('Error updating list :$e');
+      rethrow;
+    }
+  }
 
   Future<void> deleteLisst(String documentId) async {
     try {
@@ -138,9 +178,31 @@ class AppwriteService {
         },
         documentId: documentId,
       );
+       print('Created document with ID: ${result.$id}');
       return result;
     } catch (e) {
       print('Error creating note:$e');
+      rethrow;
+    }
+  }
+
+Future<Document> updateTextt(String texttId,String title,String content) async{
+    try{
+       
+      final result = await databases.updateDocument(
+        databaseId: databaseId,
+         collectionId: textscollectionId,
+         documentId: texttId,
+         data: 
+         {
+          'title':title,
+          'content':content,
+         },
+         
+      );
+      return result;
+    }catch(e){
+      print('Error updating textt :$e');
       rethrow;
     }
   }

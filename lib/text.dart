@@ -33,6 +33,15 @@ class _TextExampleState extends State<TextExample> {
     }
   }
 
+  Future<void> _deleteTextt(String texttId) async {
+    try {
+      await _appwriteService.deleteTask(texttId);
+      _loadtextts();
+    } catch (e) {
+      print('Error deleting task:$e');
+    }
+  }
+
   Future<void> _addTextt() async {
     final title = titleController.text;
     final content = contentController.text;

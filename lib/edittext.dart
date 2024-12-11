@@ -1,13 +1,15 @@
 import 'package:echo_note/appwrite_service.dart';
 import 'package:echo_note/class_text.dart';
 
-import 'package:echo_note/class_task.dart';
-import 'package:echo_note/taskscreen.dart';
-import 'package:echo_note/textscreen.dart';
 
 import 'package:flutter/material.dart';
 
 class Edittext extends StatefulWidget {
+  final String id;
+  final String title;
+  final String content;
+
+  const Edittext({required this.id,required this.title,required this.content});
   @override
   State<Edittext> createState() => _EdittextState();
 }
@@ -23,38 +25,31 @@ class _EdittextState extends State<Edittext> {
   void initState() {
     super.initState();
     _appwriteService = AppwriteService();
-    _textt = [];
+   titleController.text=widget.title;
+    contentController.text=widget.content;
   }
+ 
+ 
+  Future<void>_updateTextt() async{
+    final updatedTitle=titleController.text;
+    final updatedContent=contentController.text;
 
-  Future<void> _loadtextt() async {
-    try {
-      final textts = await _appwriteService.getTextts();
-      setState(() {
-        _textt = textts.map((e) => Textt.fromDocument(e)).toList();
-      });
-    } catch (e) {
-      print('Title is empty');
-    }
-  }
-
-  Future<void> _addTextt() async {
-    final title = titleController.text;
-    final description = contentController.text;
-
-    if (title.isNotEmpty && description.isNotEmpty) {
-      try {
-        await _appwriteService.addTextt(
-          title,
-          description,
-        );
-        titleController.clear();
-        contentController.clear();
-        _loadtextt();
-      } catch (e) {
-        print('Error adding task:$e');
+    if(updatedTitle.isNotEmpty && updatedContent.isNotEmpty){
+      try{
+      final updatedTextt=  await _appwriteService.updateTextt(
+          widget.id,
+          updatedTitle,
+          updatedContent);
+        Navigator.pop(context,updatedTextt);
+      }catch (e){
+        print("Error updated text:$e");
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Filed to update the document")));
       }
     }
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +61,12 @@ class _EdittextState extends State<Edittext> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TextScreen()));
-            },
-            child: IconButton(
-                onPressed: _addTextt,
-                icon: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                )),
-          )
+          IconButton(
+              onPressed: _updateTextt,
+              icon: Icon(
+                Icons.check,
+                color: Colors.white,
+              ))
         ],
       ),
       body: Padding(

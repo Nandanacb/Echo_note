@@ -23,19 +23,45 @@ class _TextScreenState extends State<TextScreen> {
     super.initState();
     _appwriteService = AppwriteService();
     _textt = [];
-    _loadtextt();
+    _loadtextts();
   }
 
-  Future<void> _loadtextt() async {
+  Future<void> _loadtextts() async {
     try {
       final textts = await _appwriteService.getTextts();
       setState(() {
         _textt = textts.map((e) => Textt.fromDocument(e)).toList();
       });
     } catch (e) {
-      print("Title is empty");
+      print("Error loading text:$e");
     }
   }
+
+  void _navigateToEditTextt(BuildContext context,Textt textt) async{
+  final updatedTextt= await Navigator.push(context, MaterialPageRoute(builder: (context)=>Edittext(
+    id: textt.id, title: textt.title, content: textt.content)));
+
+    if(updatedTextt !=null){
+      setState(() {
+        final index=_textt.indexWhere((textt)=>textt.id==updatedTextt.id);
+        if(index != -1){
+          _textt[index]=updatedTextt;
+        }
+      });
+      _loadtextts();
+    }
+ }
+
+
+  Future<void> _deleteTextt(String texttId) async {
+    try {
+      await _appwriteService.deleteTextt(texttId);
+      _loadtextts();
+    } catch (e) {
+      print('Error deleting text:$e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +102,12 @@ class _TextScreenState extends State<TextScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Edittext()));
-                                    } else if (value == 'Delete') {}
+                                                  Edittext(id: textts.id,
+                                                      title: textts.title,
+                                                      content: textts.content,)));
+                                    } else if (value == 'Delete') {
+                                      _deleteTextt(textts.id);
+                                    }
                                   },
                                   itemBuilder: (context) => [
                                     PopupMenuItem(

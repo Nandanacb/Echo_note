@@ -38,9 +38,9 @@ class _ListscreenState extends State<Listscreen> {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15),
-        child: _lissts.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : Column( 
+        child: /*_lissts.isEmpty
+          ? Center(child: Text("no data"))
+          :*/ Column( 
           children: [
             Expanded(
               child: GridView.builder(

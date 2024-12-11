@@ -1,7 +1,7 @@
 import 'package:echo_note/appwrite_service.dart';
 
 import 'package:echo_note/class_task.dart';
-import 'package:echo_note/taskscreen.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -30,36 +30,32 @@ class _EdittaskState extends State<Edittask> {
   void initState() {
     super.initState();
     _appwriteService = AppwriteService();
-    _tasks = [];
+    titleController.text=widget.title;
+    descriptionController.text=widget.description;
+  
+   
   }
 
-  Future<void> _loadTasks() async {
-    try {
-      final tasks = await _appwriteService.getTasks();
-      setState(() {
-        _tasks = tasks.map((e) => Task.fromDocument(e)).toList();
-      });
-    } catch (e) {
-      print('Title is empty');
-    }
-  }
 
-  Future<void> _addTask() async {
-    final title = titleController.text;
-    final description = descriptionController.text;
-    String date = "${datetime.day}/${datetime.month}/${datetime.year}";
-    String time = "${datetime.hour}/${datetime.minute}";
-    if (title.isNotEmpty && description.isNotEmpty) {
-      try {
-        await _appwriteService.addTask(title, description, date, time);
-        titleController.clear();
-        descriptionController.clear();
-        _loadTasks();
-      } catch (e) {
-        print('Error adding task:$e');
+
+  Future<void>_updateTask() async{
+    final updatedTitle=titleController.text;
+    final updatedDescription=descriptionController.text;
+
+    if(updatedTitle.isNotEmpty && updatedDescription.isNotEmpty){
+      try{
+      final updatedTask=  await _appwriteService.updateTask(
+          widget.id,
+          updatedTitle,
+          updatedDescription);
+        Navigator.pop(context,updatedTask);
+      }catch (e){
+        print("Error updated task:$e");
       }
     }
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -71,18 +67,12 @@ class _EdittaskState extends State<Edittask> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => TaskScreen()));
-            },
-            child: IconButton(
-                onPressed: _addTask,
-                icon: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                )),
-          )
+          IconButton(
+              onPressed: _updateTask,
+              icon: Icon(
+                Icons.check,
+                color: Colors.white,
+              ))
         ],
       ),
       body: Padding(
@@ -98,6 +88,7 @@ class _EdittaskState extends State<Edittask> {
                     "Title",
                     style: TextStyle(color: Colors.green),
                   ),
+                  alignLabelWithHint: true,
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.green))),
             ),
